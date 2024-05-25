@@ -1,0 +1,29 @@
+name: Flask CICD
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build docker image
+        run: docker build -t yashdani27/si_flask .
+      - name: Publish image to dockerhub
+        run: docker push yashdani27/si_flask:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: pull image from dockerhub
+        run: docker pull yashdani27/si_flask:latest
+      - name: Delete old container
+        run: docker rm -f si-flask-container
+      - name: Run Docker container
+        run: docker run -d -p 5000:5000 --name si-flask-container yashdani27/si_flask:latest
