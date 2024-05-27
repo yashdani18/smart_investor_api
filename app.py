@@ -1,13 +1,20 @@
-import os
 from flask import Flask, jsonify
 from flask_cors import CORS
+from blueprints.ticker.ticker import blueprint_ticker
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
+app.register_blueprint(blueprint_ticker)
+
 
 @app.route('/', methods=['GET'])
 def greeting():
+    print('root endpoint')
     return jsonify(message="Hello from Flask!")
 
 
