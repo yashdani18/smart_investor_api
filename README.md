@@ -58,6 +58,46 @@ Start the development server:
 Make sure to pass `debug=True` as an argument when invoking app.run() in app.py
 
 
+## API Reference
+
+#### Get all tickers
+
+```http
+  GET /api/ticker
+```
+
+#### Get one ticker
+
+```http
+  GET /api/ticker/<ticker_id>
+```
+
+#### Get fundamental ratios for ticker
+
+```http
+  GET /api/ticker/ratios/<ticker_id>
+```
+
+#### Get financial results for ticker
+
+```http
+  GET /api/ticker/results/<ticker_id>
+```
+
+#### Get conference call analysis for ticker
+
+```http
+  GET /api/ticker/analysis/<ticker_id>
+```
+
+
+#### Get financial score for ticker
+
+```http
+  GET /api/ticker/score/<ticker_id>
+```
+
+
 ## 🔗 Links
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/yashdani27/)
 
