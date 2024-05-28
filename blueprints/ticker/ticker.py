@@ -4,8 +4,7 @@ from flask import Blueprint
 import pymongo
 from bson import json_util
 import json
-from flask import jsonify, request
-from data.extract_tickers import top_10_it_companies
+from flask import jsonify
 
 load_dotenv()
 

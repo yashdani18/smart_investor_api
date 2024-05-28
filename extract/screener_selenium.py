@@ -7,13 +7,12 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 from backend.constants import PRICE, HIGH_LOW, STOCK_PE, INDUSTRY_PE, INTRINSIC_VALUE, GRAHAM_NUMBER, \
     CFO, PAT, TICKER, ROCE, ROE, HIGH, LOW
-from data.extract_tickers import top_10_it_companies
+from backend.data.extract_tickers import top_10_it_companies
 
 from dotenv import load_dotenv
 

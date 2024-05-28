@@ -3,10 +3,9 @@ import json
 from dotenv import load_dotenv
 import os
 import pymongo
-from bson.json_util import dumps, loads
 
 from backend.constants import PRICE, STOCK_PE, HIGH_LOW
-from data.extract_tickers import top_10_it_companies
+from backend.data.extract_tickers import top_10_it_companies
 
 load_dotenv()
 

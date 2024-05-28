@@ -1,5 +1,3 @@
-import glob
-import json
 import os
 import time
 
@@ -10,24 +8,17 @@ from bs4 import BeautifulSoup
 from dataclasses import dataclass, field
 
 from openai import OpenAI
-from selenium import webdriver
-from selenium.webdriver import ActionChains, Keys
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 
 from dotenv import load_dotenv
 
-from data.extract_tickers import top_10_it_companies
+from backend.data.extract_tickers import top_10_it_companies
 
-from backend.constants import TICKER, PRICE, INTRINSIC_VALUE, GRAHAM_NUMBER, QUARTERS, Q_SALES, Q_EXPENSES, Q_OPM, \
+from backend.constants import QUARTERS, Q_SALES, Q_EXPENSES, Q_OPM, \
     Q_OPM_PERCENT, Q_OTHER_INCOME, Q_INTEREST, Q_DEPRECIATION, \
     Q_PBT, Q_TAX, Q_PAT, Q_EPS, \
     Q_SALES_PERCENT, Q_EXPENSES_PERCENT, Q_PAT_PERCENT, \
     YEARS, A_SALES, A_EXPENSES, A_OPM, A_OPM_PERCENT, A_OTHER_INCOME, A_INTEREST, A_DEPRECIATION, \
-    A_PBT, A_TAX, A_PAT, A_EPS, A_SALES_PERCENT, A_EXPENSES_PERCENT, A_PAT_PERCENT, Q_PDF, A_PDF, STOCK_PE, INDUSTRY_PE, \
-    CFO, PAT, HIGH_LOW
+    A_PBT, A_TAX, A_PAT, A_EPS, A_SALES_PERCENT, A_EXPENSES_PERCENT, A_PAT_PERCENT, Q_PDF, A_PDF
 
 load_dotenv()
 
