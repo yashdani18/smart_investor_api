@@ -166,4 +166,4 @@ def get_data_from_screener_using_selenium(ticker):
             return {}
 
 
-print(get_data_from_screener_using_selenium('TCS'))
+print(get_data_from_screener_using_selenium('MPHASIS'))

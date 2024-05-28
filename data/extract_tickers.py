@@ -25,4 +25,4 @@ top_10_it_companies = [
     'LTTS'
 ]
 
-print(len(symbols))
+# print(len(symbols))
