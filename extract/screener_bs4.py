@@ -43,20 +43,15 @@ class RangeTable:
 
 def download_pdf(url, ticker):
     try:
-        # Send a GET request to the URL
         headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/50.0.2661.102 Safari/537.36 '
         }
         response = requests.get(url, headers=headers)
 
-        # Check if the request was successful
         if response.status_code == 200:
-            # Check if the Content-Type header is 'application/pdf'
             if response.headers['Content-Type'] == 'application/pdf':
-                # Open a local file with write-binary mode
                 with open(f'{ticker}.pdf', 'wb') as file:
-                    # Write the content of the response to the file in chunks
                     for chunk in response.iter_content(chunk_size=8192):
                         file.write(chunk)
                 print("File downloaded successfully")
@@ -72,7 +67,6 @@ def read_pdf(filename: str):
     with open(filename, 'rb') as file:
         reader = PyPDF2.PdfReader(file)
         text = ''
-        # Iterate through each page and extract text
         for page_num in range(len(reader.pages)):
             page = reader.pages[page_num]
             text += page.extract_text()
@@ -113,9 +107,6 @@ def fetch_analysis_from_openai(pdf_filename: str):
     Return a valid json. Do not return any characters before or after the valid json string.
     """
 
-    # Tell me what has been the biggest focus for the company in the text: past, present or future.
-    # Please only reply with one of these three options: (past, present, future)
-
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -127,7 +118,7 @@ def fetch_analysis_from_openai(pdf_filename: str):
     return completion.choices[0].message.content
 
 
-def get_data_from_screener_using_bs4(ticker: str) -> dict:
+def get_data_from_screener_using_bs4(ticker: str) -> dict | None:
     start_time = time.time_ns()
     url = f'https://www.screener.in/company/{ticker}/consolidated/'
 
@@ -154,7 +145,6 @@ def get_data_from_screener_using_bs4(ticker: str) -> dict:
             list_rows.append(RangeTableRow(key, val).__dict__)
         range_table.title = title
         range_table.data = list_rows
-        # print(range_table.__dict__)
         dictionary['range_tables'].append(range_table.__dict__)
 
     table_metadata = [
@@ -175,16 +165,12 @@ def get_data_from_screener_using_bs4(ticker: str) -> dict:
             body_rows = table.find('tbody').find_all('tr')
             for row_index, row in enumerate(body_rows[:-1]):
                 cols = row.find_all('td')
-                # print(cols[0].text.strip(), [col.text.strip().replace(',', '') for col in cols[1:]])
-                # dictionary[table_metadata[t_index][r
-                # _index + 1]] = [col.text.strip().replace(',', '') for col in cols[1:]]
                 table_dictionary[table_metadata[table_index][row_index + 1]] = \
                     [col.text.strip() for col in cols[1:]]
 
         q_sales = table_dictionary[Q_SALES]
         q_expenses = table_dictionary[Q_EXPENSES]
         q_net_profit = table_dictionary[Q_PAT]
-        # print(q_sales)
 
         q_sales = [int(val.replace(',', '')) for val in q_sales]
         q_expenses = [int(val.replace(',', '')) for val in q_expenses]
@@ -255,24 +241,6 @@ def get_data_from_screener_using_bs4(ticker: str) -> dict:
         box_con_calls = soup.find_all(False, {'class': ['show-more-box']})[-1]
         link_first_transcript = box_con_calls.find('li').find('a')['href']
         dictionary['latest_concall_transcript'] = link_first_transcript
-        # download_pdf(link_first_transcript, ticker)
-        #
-        # file_found = False
-        # while True:
-        #     pdf_files = glob.glob(os.path.join('', '*.pdf'))
-        #     for pdf_file in pdf_files:
-        #         print(pdf_file)
-        #         if pdf_file == f'{ticker}.pdf':
-        #             print('Found file')
-        #             file_found = True
-        #             break
-        #     if file_found:
-        #         break
-
-        # print('Fetching data from OpenAI')
-        # openai_response = fetch_analysis_from_openai(ticker + '.pdf')
-        # print(openai_response)
-        # dictionary['openai_analysis'] = json.loads(openai_response)
 
     except Exception as e:
         print('Exception in extract.py:', str(e.args))

@@ -41,20 +41,15 @@ class ConcallAnalysis:
 
 def download_pdf(url, p_ticker):
     try:
-        # Send a GET request to the URL
         headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/50.0.2661.102 Safari/537.36 '
         }
         response = requests.get(url, headers=headers)
 
-        # Check if the request was successful
         if response.status_code == 200:
-            # Check if the Content-Type header is 'application/pdf'
             if response.headers['Content-Type'] == 'application/pdf':
-                # Open a local file with write-binary mode
                 with open(f'{p_ticker}.pdf', 'wb') as file:
-                    # Write the content of the response to the file in chunks
                     for chunk in response.iter_content(chunk_size=8192):
                         file.write(chunk)
                 print("File downloaded successfully")
@@ -70,7 +65,6 @@ def read_pdf(filename: str):
     with open(filename, 'rb') as file:
         reader = PyPDF2.PdfReader(file)
         text = ''
-        # Iterate through each page and extract text
         for page_num in range(len(reader.pages)):
             page = reader.pages[page_num]
             text += page.extract_text()
@@ -86,15 +80,9 @@ collection_results_analysis = db['top_10_it_results_analysis']
 OPENAI_API = os.getenv('OPENAI_API')
 
 for ticker in top_10_it_companies:
-    # if ticker == 'TCS' or ticker == 'INFY' or ticker == 'HCLTECH' or ticker == 'LTIM' \
-    #         or ticker == 'WIPRO' or ticker == 'TECHM' or ticker == 'OFSS' or ticker == 'LTTS'\
-    #         or ticker == 'POLICYBZR':
-    #     continue
     print('Starting flow for:', ticker)
     ticker_ratios = collection_ratios.find_one({'ticker': ticker})
     ticker_results = collection_results.find_one({'ticker': ticker})
-    # print(ticker_ratios['ticker'])
-    # print(ticker_results['ticker'])
 
     current_price = ticker_ratios[PRICE]
     stock_pe = ticker_ratios[STOCK_PE]
@@ -234,12 +222,8 @@ for ticker in top_10_it_companies:
             {"role": "user", "content": financial_context}
         ]
     )
-
     output = completion.choices[0].message.content
-
     print(output)
     time.sleep(5)
-    print()
-    print()
 
 

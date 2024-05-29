@@ -12,7 +12,7 @@ sources and present it in an easy-to-understand way.
 - Visualize Growth Numbers
 - Compare Industry Peers
 
-
+With intelligent commentary powered by gpt-4
 
 ## Installation and Setup
 

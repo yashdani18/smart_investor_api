@@ -2,7 +2,6 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from blueprints.ticker.ticker import blueprint_ticker
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 

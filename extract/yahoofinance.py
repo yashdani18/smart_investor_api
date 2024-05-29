@@ -106,20 +106,6 @@ def first_monday_of_year(year):
     return day
 
 
-# def fetch_open_price_for_year(year, ticker) -> float:
-#     period1, period2 = get_start_end_period(1, 1, year)
-#     url = prepare_url(ticker + ".NS", period1, period2, 'daily')
-#     data = get_data_from_yahoo_finance(url)
-#     if data == "404 Not Found: Timestamp data missing.":
-#         print('Invalid data')
-#         day = first_monday_of_year(year)
-#         period1, period2 = get_start_end_period(day, 1, year)
-#         url = prepare_url(ticker + ".NS", period1, period2, 'daily')
-#         data = get_data_from_yahoo_finance(url)
-#     print(data)
-#     return round(float(data.split('\n')[1].split(',')[1]), 2)
-
-
 def dataIsInvalid(data):
     return data == "404 Not Found: Timestamp data missing."
 
@@ -132,21 +118,6 @@ def fetch_price_for_date_from_yf(day, month, year, ticker) -> float:
         return 0
     # print(data)
     return round(float(data.split('\n')[1].split(',')[1]), 2)
-
-    #     print('1')
-    #     invalidData = True
-    #     while invalidData:
-    #         if delta == "next":
-    #             day, month, year = get_next_date(day, month, year)
-    #         else:
-    #             day, month, year = get_previous_date(day, month, year)
-    #         data = fetch_price_for_date(day, month, year, ticker, delta)
-    #         print('2')
-    #         if dataIsInvalid(data):
-    #             continue
-    #         invalidData = False
-    # print(data)
-    # return round(float(data.split('\n')[1].split(',')[1]), 2)
 
 
 def fetch_price_for_date(date, month, year, ticker, delta):
@@ -172,8 +143,6 @@ def fetch_open_price_for_year(year, ticker):
     return fetch_price_for_date(1, 1, year, ticker, "next")
 
 
-# print(fetch_current_price('GPIL'))
-
 def compute_cagr(list_prices: list):
     for index, price in enumerate(list_prices):
         if index == 0:
@@ -196,9 +165,6 @@ def fetch_data_for_cagr(ticker: str):
     print(compute_cagr(list_prices))
 
 
-# fetch_data_for_cagr('RELIANCE')
-
-
 def prepare_dataframe(p_response):
     list_date = []
     list_open = []
@@ -207,8 +173,6 @@ def prepare_dataframe(p_response):
     list_close = []
     list_adj_close = []
     list_volume = []
-
-    # print(p_response)
 
     array_data = p_response.split('\n')
     # print('array_data', array_data)
@@ -338,13 +302,6 @@ def calculate_rsi(p_ticker, p_exchange):
             sum_loss += (net * -1)
             sum_loss_count += 1
 
-    print('total gain', sum_gain)
-    print('total loss', sum_loss)
-    print('avg gain', sum_gain / 14)
-    print('avg loss', sum_loss / 14)
-    # print('rs', sum_gain / sum_loss)
-    print('rs', (sum_gain / 14) / (sum_loss / 14))
-    # print('rsi', (100 - (100 / (1 + sum_gain / sum_loss))))
     rs = (sum_gain/14) / (sum_loss/14)
     return 100 - (100 / (1 + rs))
 
